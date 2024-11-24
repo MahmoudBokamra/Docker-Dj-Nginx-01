@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  django:
+    build:
+      context: ./app
+    volumes:
+      - ./app:/app
+    env_file:
+      - ./app/.env
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres@sha256:ac09c433f64f2d310a83e5cc24dadc13561f645199d4ec8e503824de22e14668
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  nginx:
+    image: nginx@sha256:bc5eac5eafc581aeda3008b4b1f07ebba230de2f27d47767129a6a905c84f470
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d
+    depends_on:
+      - django
+
+volumes:
+  postgres_data:
