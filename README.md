@@ -1,0 +1,1 @@
+Docker project use Nginx and Djanog and gunicorn to run django and use nginx as reverse proxy from host to django from port 8080 to 80 to 8000 and psotgresql connected to django to use it as genral data base
